@@ -2,172 +2,130 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>Happy Birthday, Champ!</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+  <title>Birthday Celebration</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@600&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; }
     body {
-      margin: 0; padding: 0; min-height: 100vh;
-      font-family: 'Montserrat', sans-serif;
       background: linear-gradient(120deg, #e1f5fe 0%, #fff8e1 100%);
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
       color: #23436c;
+      margin: 0; padding: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
       overflow-x: hidden;
-      line-height: 1.4;
+      position: relative;
     }
-    .float-shape { position: fixed; pointer-events: none; opacity: 0.25; z-index: 20; animation: floaty 8s infinite alternate linear; will-change: transform; }
-    .float1 { left: 10vw; top: 12vh; width: 60px; height: 60px; animation-delay: 0s;}
-    .float2 { left: 75vw; top: 7vh; width: 42px; height: 42px; animation-delay: 2.2s;}
-    .float3 { left: 20vw; top: 70vh; width: 56px; height: 56px; animation-delay: 1.1s;}
-    .float4 { left: 80vw; top: 80vh; width: 38px; height: 38px; animation-delay: 3s;}
-    .float5 { left: 45vw; top: 38vh; width: 50px; height: 50px; animation-delay: 4s;}
+    .float-shape { position: fixed; pointer-events: none; opacity: 0.23; z-index: 20; animation: floaty 8s infinite alternate linear; }
+    .float1 { left: 10vw; top: 12vh; width: 60px; animation-delay: 0s;}
+    .float2 { left: 75vw; top: 7vh; width: 42px; animation-delay: 2.2s;}
+    .float3 { left: 20vw; top: 70vh; width: 56px; animation-delay: 1.1s;}
+    .float4 { left: 80vw; top: 80vh; width: 38px; animation-delay: 3s;}
+    .float5 { left: 45vw; top: 38vh; width: 50px; animation-delay: 4s;}
     @keyframes floaty { 0%{transform: translateY(0) scale(1);} 100%{transform: translateY(-40px) scale(1.08);} }
     #fireworks-canvas { position: fixed; left:0; top:0; width:100vw; height:100vh; z-index:1000; pointer-events:none; display:none; }
-    #front-page {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 100vh; z-index: 1; background: none;
-      padding: 0 10px; text-align: center;
-      animation: fadein 1.5s cubic-bezier(.26,1.23,.45,1);
-    }
+
+    #front-page, #main-content { width:100vw; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height:100vh; }
+    #front-page { animation: fadein 1.5s cubic-bezier(.26,1.23,.45,1); }
     @keyframes fadein { 0%{opacity:0;transform:scale(0.94);} 100%{opacity:1;transform:scale(1);} }
     .bday-title {
-      font-family:'Pacifico', cursive; font-size: clamp(2.2rem, 5vw, 3.5rem);
-      color:#1976d2; letter-spacing:0.03em; margin:3.5rem 0 1.5rem;
+      font-family:'Pacifico', cursive;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      color:#1976d2; letter-spacing:0.03em;
+      margin:3.5rem 0 1.5rem;
       text-shadow:2px 8px 46px #1976d288;
       filter: drop-shadow(0 2px 12px #fffde7cc);
-      animation:bounce-in 1.2s 0.2s backwards; user-select: none;
+      animation:bounce-in 1.2s 0.2s backwards;
+      user-select: none;
     }
     @keyframes bounce-in {
       0%{transform:translateY(-40px) scale(0.85);}
       75%{transform:translateY(6px) scale(1.06);}
       100%{transform:translateY(0) scale(1);}
     }
-    .subtitle {
-      font-size:clamp(1rem,3vw,1.35rem); color:#0077be; max-width:350px; margin-bottom:2rem;
-      letter-spacing:0.06em; animation:fadein .8s 1.1s backwards; line-height:1.35;
-    }
+    .subtitle { font-size:clamp(1rem,3vw,1.35rem); color:#0077be; max-width:350px; margin-bottom:2rem; letter-spacing:0.06em; animation:fadein .8s 1.1s backwards; line-height:1.35; }
     button {
-      font-family:'Pacifico',cursive; font-weight:700;
-      border:none; border-radius:38px; cursor:pointer;
-      transition: background 0.22s, color 0.22s, box-shadow 0.24s, transform 0.25s;
-      outline-offset: 3px; outline-color: transparent; user-select: none;
+      font-family:'Pacifico',cursive; font-weight:700; border:none; border-radius:38px; cursor:pointer; transition: background 0.22s, color 0.22s, box-shadow 0.24s, transform 0.25s; outline-offset: 3px; outline-color: transparent; user-select: none;
     }
     #start-btn {
-      font-size:clamp(1.6rem,4vw,2em); padding:0.9em 2.5em;
-      background:linear-gradient(135deg,#1976d2 0%,#ffd600 70%); color:white;
-      animation:glow-btn 1.7s 1.6s infinite alternate; margin-bottom:20px; min-width:190px;
-      box-shadow:0 8px 36px 8px #ffd60067, 0 1px 14px #1976d2ad;
+      font-size:clamp(1.6rem,4vw,2em); padding:0.9em 2.5em; background:linear-gradient(135deg,#1976d2 0%,#ffd600 70%); color:white; animation:glow-btn 1.7s 1.6s infinite alternate; margin-bottom:20px; min-width:190px; box-shadow:0 8px 36px 8px #ffd60067, 0 1px 14px #1976d2ad;
     }
-    #start-btn:hover,#start-btn:focus {
-      background:linear-gradient(120deg,#ffd600 0%,#1976d2 90%);
-      color:#23436c; transform: scale(1.07);
-      box-shadow:0 12px 64px 8px #ffd600dd, 0 1px 26px #1976d2c9;
-    }
+    #start-btn:hover,#start-btn:focus { background:linear-gradient(120deg,#ffd600 0%,#1976d2 90%); color:#23436c; transform: scale(1.07); box-shadow:0 12px 64px 8px #ffd600dd, 0 1px 26px #1976d2c9;}
     @keyframes glow-btn { from{box-shadow:0 8px 32px 0px #ffd6003c;} to{box-shadow:0 18px 50px 4px #ffd600c2;} }
-    #main-content {
-      display:none; flex-direction:column; align-items:center; justify-content:center;
-      min-height:100vh; width:100vw; padding:15px; text-align:center;
-    }
-    .cake {
-      max-width:320px; width:90vw;
-      margin:1.5rem auto 1.5rem; display:none;
-      animation: cakedelicious 1.7s infinite alternate cubic-bezier(.4,1.6,.3,1.3);
-      filter: drop-shadow(0 16px 19px #ffd60033);
-    }
+
+    #main-content { display: none; padding: 0 10px; }
+    .cake { max-width:320px; width:90vw; margin:1.5rem auto 1.5rem; display:none; animation: cakedelicious 1.7s infinite alternate cubic-bezier(.4,1.6,.3,1.3); filter: drop-shadow(0 16px 19px #ffd60033); }
     .cake svg{ width:100%; height:auto; display:block; }
-    @keyframes cakedelicious {
-      0%{transform: translateY(-8px) scale(1);}
-      60%{transform: translateY(6px) scale(1.03,0.98);}
-      80%{transform: translateY(-4px) scale(1.06,0.96);}
-      100%{transform: translateY(7px) scale(1.01,1.01);}
-    }
+    @keyframes cakedelicious { 0%{transform: translateY(-8px) scale(1);} 60%{transform: translateY(6px) scale(1.03,0.98);} 80%{transform: translateY(-4px) scale(1.06,0.96);} 100%{transform: translateY(7px) scale(1.01,1.01);} }
     .cake-sparkle{ animation: sparklecake 1.4s infinite alternate; filter: drop-shadow(0 0 18px #fff9c4);}
     @keyframes sparklecake {0%,100%{opacity:0.77;}30%{opacity:1;filter:drop-shadow(0 0 42px #fff9c4);} }
-    .candle{animation: flicker 0.65s infinite alternate;}
+    .candle { animation: flicker 0.65s infinite alternate;}
     @keyframes flicker{0%{filter:brightness(.94) drop-shadow(0 0 12px #fff176f6); transform:scaleY(1.1);}80%{filter:brightness(1.28) drop-shadow(0 0 22px #fff176); transform:scaleY(1);} }
     #cut-btn {
-      display:none; font-size:clamp(1rem,2.5vw,1.22rem);
-      padding:0.75em 2.2em; margin-top:1.5rem; border-radius:18px;
-      background:linear-gradient(135deg,#1976d2,#ffd600 87%);
-      color:white; box-shadow:0 8px 16px #ffd60044; font-family:'Montserrat',sans-serif;
-      font-weight:700; animation:fadein .6s backwards; min-width:160px;
+      display:none; font-size:clamp(1rem,2.5vw,1.22rem); padding:0.75em 2.2em; margin-top:1.5rem; border-radius:18px; background:linear-gradient(135deg,#1976d2,#ffd600 87%); color:white; box-shadow:0 8px 16px #ffd60044; font-family:'Montserrat',sans-serif; font-weight:700; animation:fadein .6s backwards; min-width:160px;
     }
-    #cut-btn:hover,#cut-btn:focus{background:linear-gradient(90deg,#ffd600 40%,#1976d2 80%);color:#23436c;transform:scale(1.06);}
+    #cut-btn:hover,#cut-btn:focus { background:linear-gradient(90deg,#ffd600 40%,#1976d2 80%);color:#23436c;transform:scale(1.06);}
     #birthday-message {
-      display:none; font-size:clamp(1.8rem,5vw,2.5rem);
-      margin:2.5rem auto 1rem;
-      width:0;
-      white-space:nowrap; overflow:hidden;
-      border-right:3px solid #1976d2;
-      font-family:'Pacifico',cursive;
-      color:#1976d2;
-      animation:typing 2.1s steps(26, end) forwards;
-      max-width:90vw; max-inline-size:90vw;
+      display:none; font-size:clamp(1.8rem,5vw,2.5rem); margin:2.5rem auto 1rem; width:0; white-space:nowrap; overflow:hidden; border-right:3px solid #1976d2; font-family:'Pacifico',cursive; color:#1976d2; animation:typing 2.1s steps(26, end) forwards; max-width:90vw; max-inline-size:90vw;
     }
     @keyframes typing {from{width:0}to{width:23ch}}
     .cursor {border-right:3px solid #1976d2; display:inline-block; animation: blink-cursor 0.8s 1;}
     @keyframes blink-cursor {0%,100%{border-color:transparent;}50%{border-color:#1976d2;} }
-    .wish-message {
-      display:none;
-      font-size:1.18em;
-      margin-top:2.5rem;
-      color:#23436c;
-      background:linear-gradient(120deg,#fffde7 60%,#e1f5fe 100%);
-      border-radius:18px;
-      box-shadow:0 4px 16px #1976d223;
-      padding:2rem 1.3rem 1rem 1.3rem;
-      max-width:410px;
-      margin-left:auto; margin-right:auto;
-      opacity:.97;
-      text-align: center;
+
+    /* Flipping card styles (starts hidden, appears after cake is cut) */
+    .card { width: 340px; max-width: 96vw; min-height: 380px; perspective: 1200px; margin: 2.6rem auto 3rem auto; border-radius: 22px; background: none; outline: 0; box-shadow: 0 4px 26px 0 #90caf922; cursor: pointer; user-select: none; z-index:3; display:none;}
+    .card-inner { width: 100%; min-height: 380px; transition: transform 0.75s cubic-bezier(.41,1.13,.43,1), box-shadow 0.4s; transform-style: preserve-3d; position: relative; border-radius: 22px; height: 100%; box-shadow: 0 4px 28px #ffd60044; }
+    .card:hover .card-inner, .card.flipped .card-inner { transform: rotateY(180deg); box-shadow: 0 12px 48px #1976d233;}
+    .card-front, .card-back {
+      position: absolute; width: 100%; min-height: 380px; backface-visibility: hidden; border-radius: 22px; background: #fff; box-shadow: 0 4px 18px rgba(33,150,243,0.13); padding: 2.1rem 1.1rem 1.2rem 1.1rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
     }
-    .wish-photo {
-      width: 100px;
-      max-width: 50vw;
-      max-height: 100px;
-      object-fit: cover;
-      border-radius: 90px;
-      border: 3px solid #ffd600;
-      margin: 0 auto 1.1em auto;
-      box-shadow: 0 4px 20px #ffeb3b22;
-      display: block;
+    .card-front { z-index: 2; background: linear-gradient(110deg, #e3f2fd 90%, #fffde7 100%);}
+    .card-front h1 { font-family: 'Pacifico', cursive; color: #1976d2; font-size: clamp(2.1rem,4vw,2.9rem); margin: 0.2em 0 0.7em 0; letter-spacing: 0.02em; text-shadow: 1px 4px 24px #1976d233; user-select: none;}
+    .card-front img {
+      width: 120px; height: 120px; object-fit: cover; border-radius: 80px;
+      box-shadow: 0 4px 24px #ffd60088; border: 4px solid #e1f5fe;
+      margin: 0 auto 1.1em auto; background: #eee; display: block;
     }
-    .wish-message .signature {
-      margin-top:1em;
-      font-family:'Pacifico',cursive;
-      color:#1976d2;
-      font-size:1.02em;
+    .card-front .subtitle { font-size: 1.14em; color: #0077be; margin: 0.6em 0 0.5em 0; font-family:'Montserrat',sans-serif; }
+    .card-back {
+      transform: rotateY(180deg); z-index: 3; background: linear-gradient(120deg,#fffde7 71%, #e1f5fe 100%);
+      padding-bottom: 1.4rem; align-items: center; justify-content: center;
     }
+    .card-back p { color: #23436c; font-size: 1.07rem; margin-bottom: 1.1rem; line-height: 1.47;}
+    .signature { margin-top: 1rem; font-family: 'Pacifico', cursive; color: #1976d2; font-size: 1.06em;}
+    .emoji-bar { font-size: 1.2em; }
     @media (max-width:600px){
       .cake{ max-width:94vw;}
       #birthday-message{font-size:1.22em;}
-      .wish-message{font-size:1em;padding:1.1rem 0.7rem;}
-      .wish-photo { width: 64px; height: 64px; }
+      .card,.card-inner,.card-front,.card-back { min-height: 230px !important; }
+      .card { width: 98vw; }
+      .card-front img {width: 78px; height: 78px;}
+      .card-front h1 {font-size:1.5em;}
+      .card-back p, .signature { font-size: 0.97em; }
     }
   </style>
 </head>
 <body>
-  <!-- Floating Shapes -->
-  <svg class="float-shape float1" viewBox="0 0 60 60"><circle cx="30" cy="30" r="30" fill="#ffd600"/></svg>
-  <svg class="float-shape float2" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="#1976d2"/></svg>
-  <svg class="float-shape float3" viewBox="0 0 50 38"><ellipse cx="25" cy="25" rx="24" ry="12" fill="#fff9c4"/></svg>
-  <svg class="float-shape float4" viewBox="0 0 40 40"><polygon points="0,20 20,0 40,20 20,40" fill="#42a5f5"/></svg>
-  <svg class="float-shape float5" viewBox="0 0 48 48"><circle cx="24" cy="24" r="12" fill="#0077be"/></svg>
+  <!-- Floating shapes background -->
+  <svg class="float-shape float1" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="30" fill="#ffd600"/></svg>
+  <svg class="float-shape float2" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#1976d2"/></svg>
+  <svg class="float-shape float3" viewBox="0 0 50 38" aria-hidden="true"><ellipse cx="25" cy="25" rx="24" ry="12" fill="#fff9c4"/></svg>
+  <svg class="float-shape float4" viewBox="0 0 40 40" aria-hidden="true"><polygon points="0,20 20,0 40,20 20,40" fill="#42a5f5"/></svg>
+  <svg class="float-shape float5" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="12" fill="#0077be"/></svg>
 
-  <!-- Fireworks Canvas -->
   <canvas id="fireworks-canvas"></canvas>
 
-  <!-- Front Page -->
-  <section id="front-page" role="main" aria-label="Welcome page">
-    <h1 class="bday-title">Hey Champ! 🎈</h1>
-    <p class="subtitle">Get ready for your awesome birthday surprise!</p>
+  <!-- Landing -->
+  <section id="front-page">
+    <div class="bday-title">Hey Champ! 🎈</div>
+    <div class="subtitle">Get ready for your awesome birthday surprise!</div>
     <button id="start-btn" type="button">Start the Celebration 🚀</button>
   </section>
 
-  <!-- Main Content -->
-  <section id="main-content" aria-label="Birthday celebration" tabindex="-1">
+  <!-- Main celebration content -->
+  <section id="main-content">
     <div class="cake" id="cake">
-      <!-- SVG cake (your original full SVG) -->
       <svg viewBox="0 0 220 170">
         <rect x="55" y="145" width="110" height="13" rx="8" fill="#a7b6c2"/>
         <ellipse cx="110" cy="139" rx="70" ry="18" fill="#ffd600" />
@@ -180,50 +138,51 @@
         <ellipse class="cake-sparkle" cx="140" cy="74" rx="2" ry="6" fill="#fff" />
         <ellipse class="cake-sparkle" cx="170" cy="85" rx="3" ry="1.5" fill="#ffd600" />
         <ellipse class="cake-sparkle" cx="110" cy="69" rx="4" ry="2.8" fill="#43a047" />
-        <g>
-          <rect x="74" y="53" width="8" height="21" rx="3" fill="#ffd600"/>
+        <g><rect x="74" y="53" width="8" height="21" rx="3" fill="#ffd600"/>
           <ellipse cx="78" cy="53" rx="4" ry="4" fill="#fffde7"/>
           <ellipse class="candle" cx="78" cy="48" rx="3" ry="6" fill="#fff176" />
-          <ellipse class="candle" cx="78" cy="44.5" rx="1.6" ry="2.7" fill="#fffde7" />
-        </g>
-        <g>
-          <rect x="106" y="45" width="8" height="28" rx="3" fill="#ffd600"/>
+          <ellipse class="candle" cx="78" cy="44.5" rx="1.6" ry="2.7" fill="#fffde7" /></g>
+        <g><rect x="106" y="45" width="8" height="28" rx="3" fill="#ffd600"/>
           <ellipse cx="110" cy="45" rx="4" ry="4" fill="#fffde7"/>
           <ellipse class="candle" cx="110" cy="38" rx="3.2" ry="7" fill="#fff176" />
-          <ellipse class="candle" cx="110" cy="34.5" rx="1.8" ry="3.1" fill="#fffde7" />
-        </g>
-        <g>
-          <rect x="138" y="51" width="8" height="22" rx="3" fill="#ffd600"/>
+          <ellipse class="candle" cx="110" cy="34.5" rx="1.8" ry="3.1" fill="#fffde7" /></g>
+        <g><rect x="138" y="51" width="8" height="22" rx="3" fill="#ffd600"/>
           <ellipse cx="142" cy="51" rx="4" ry="4" fill="#fffde7"/>
           <ellipse class="candle" cx="142" cy="46" rx="3" ry="6" fill="#fff176" />
-          <ellipse class="candle" cx="142" cy="43.2" rx="1.5" ry="2.5" fill="#fffde7" />
-        </g>
+          <ellipse class="candle" cx="142" cy="43.2" rx="1.5" ry="2.5" fill="#fffde7" /></g>
       </svg>
     </div>
-
     <button id="cut-btn" type="button">Cut the Cake 🎂</button>
-
     <h1 id="birthday-message"><span id="typed-text"></span><span class="cursor" id="cursor"></span></h1>
-
-    <div class="wish-message" id="wish-message">
-      <!-- Add your profile/birthday photo here -->
-      <img src="b.jpeg" alt="Birthday Photo" class="wish-photo" />
-      <p>
-        Happy birthday to the most amazing guy and the best person one could wish for.<br>
-        May your year bring you new levels, new victories—and tons of fun!<br>
-        Wishing someone who makes the world brighter just by being in it a magical day. Keep smiling, keep shining, and never stop being wonderful. Happy Birthday! 💝🎂🎉
-      </p>
-      <p>
-        Here’s to epic adventures, inside jokes, and your success.<br>
-        <span style="font-size:1.3em;">🎉⚽🎮</span>
-      </p>
-      <div class="signature">— From Your Favorite Person Momo</div>
+    <!-- Flipping Birthday Card -->
+    <div class="card" id="birthday-card" tabindex="0" aria-label="Flipping Birthday Card">
+      <div class="card-inner">
+        <div class="card-front">
+          <!-- Uncomment next line for photo -->
+          <!-- <img src="b.jpeg" alt="Birthday photo" /> -->
+          <h1>Happy Birthday! 🎉</h1>
+          <div class="subtitle">Wishing you a magical day!</div>
+        </div>
+        <div class="card-back">
+          <p>
+            Happy birthday to the most amazing person and the best friend one could wish for.<br>
+            May your year bring new victories—and tons of fun!<br>
+            Wishing someone who makes the world brighter just by being in it a magical day. Keep smiling, keep shining, and never stop being wonderful. 💝🎂🎉
+          </p>
+          <p>
+            Here’s to epic adventures, inside jokes, and your success.<br>
+            <span class="emoji-bar">🎉⚽🎮</span>
+          </p>
+          <div class="signature">— From Your Favorite Person Momo</div>
+        </div>
+      </div>
     </div>
     <audio id="music" src="cut.mp3" autoplay loop preload="auto"></audio>
     <audio id="cut-sound" src="cut1.mp3" preload="auto"></audio>
   </section>
+
   <script>
-    // Fireworks Effect
+    // FLOATING SHAPES, FIREWORKS
     const fireworksCanvas = document.getElementById('fireworks-canvas');
     const fireworksCtx = fireworksCanvas.getContext('2d');
     let fireworks = [], particles = [], running = false;
@@ -233,34 +192,29 @@
     }
     resizeFireworks();
     window.addEventListener('resize', resizeFireworks);
-
     const fireworkColors = ['#ffd600', '#1976d2', '#ff5252', '#fff176', '#42a5f5', '#ffb300', '#43a047', '#ffeb3b', '#fff', 'cyan', 'violet'];
     function randomColor(){return fireworkColors[Math.floor(Math.random() * fireworkColors.length)];}
     function Particle(x, y, hue){
-      this.x=x; this.y=y;
-      const angle=Math.random()*Math.PI*2, speed=Math.random()*6+2.5;
-      this.vx=Math.cos(angle)*speed; this.vy=Math.sin(angle)*speed;
-      this.alpha=1; this.decay=0.01+Math.random()*0.017; this.color=`hsl(${hue+Math.random()*60},98%,65%)`;
+      this.x=x; this.y=y;const angle=Math.random()*Math.PI*2,speed=Math.random()*6+2.5;
+      this.vx=Math.cos(angle)*speed;this.vy=Math.sin(angle)*speed;this.alpha=1;this.decay=0.01+Math.random()*0.017;this.color=`hsl(${hue+Math.random()*60},98%,65%)`;
     }
     Particle.prototype.update=function(index){this.x+=this.vx;this.y+=this.vy;this.vy+=0.015;this.alpha-=this.decay;if(this.alpha<=0)particles.splice(index,1);}
     Particle.prototype.draw=function(){fireworksCtx.save();fireworksCtx.globalAlpha=Math.max(this.alpha,0);fireworksCtx.beginPath();fireworksCtx.arc(this.x,this.y,2.6,0,Math.PI*2);fireworksCtx.fillStyle=this.color;fireworksCtx.shadowBlur=18;fireworksCtx.shadowColor='#fff';fireworksCtx.fill();fireworksCtx.restore();}
     function Firework(sx, sy, tx, ty){
       this.x=sx;this.y=sy;this.sx=sx;this.sy=sy;this.tx=tx;this.ty=ty;
-      this.distance=Math.hypot(tx-sx,ty-sy);this.distanceTraveled=0;
-      this.angle=Math.atan2(ty-sy,tx-sx); this.speed=3+Math.random()*2;
-      this.trail=[]; this.hue=Math.floor(Math.random()*360); this.targetRadius=4;
+      this.distance=Math.hypot(tx-sx,ty-sy);this.distanceTraveled=0;this.angle=Math.atan2(ty-sy,tx-sx);
+      this.speed=3+Math.random()*2;this.trail=[];this.hue=Math.floor(Math.random()*360);this.targetRadius=4;
     }
     Firework.prototype.update=function(index){
-      this.trail.push({x:this.x,y:this.y}); if(this.trail.length>9)this.trail.shift();
-      let vx=Math.cos(this.angle)*this.speed, vy=Math.sin(this.angle)*this.speed;
-      this.distanceTraveled+=Math.hypot(vx,vy);
+      this.trail.push({x:this.x,y:this.y});if(this.trail.length>9)this.trail.shift();
+      let vx=Math.cos(this.angle)*this.speed,vy=Math.sin(this.angle)*this.speed;this.distanceTraveled+=Math.hypot(vx,vy);
       if(this.distanceTraveled>=this.distance){createParticles(this.tx,this.ty,this.hue);fireworks.splice(index,1);}
       else{this.x+=vx;this.y+=vy;}
     };
     Firework.prototype.draw=function(){
       fireworksCtx.beginPath();fireworksCtx.moveTo(this.trail[0]?.x||this.x,this.trail[0]?.y||this.y);
       for(const pos of this.trail)fireworksCtx.lineTo(pos.x,pos.y);
-      fireworksCtx.strokeStyle=`hsl(${this.hue},97%,60%)`;foreworksCtx.lineWidth=2.3;fireworksCtx.stroke();
+      fireworksCtx.strokeStyle=`hsl(${this.hue},97%,60%)`;fireworksCtx.lineWidth=2.3;fireworksCtx.stroke();
       fireworksCtx.beginPath();fireworksCtx.arc(this.tx,this.ty,this.targetRadius,0,Math.PI*2);
       fireworksCtx.strokeStyle=randomColor();fireworksCtx.stroke();
     }
@@ -282,14 +236,18 @@
       fireworksCanvas.style.display='block'; running=true; resizeFireworks(); fireworksLoop();
       setTimeout(()=>{running=false;setTimeout(()=>{fireworksCanvas.style.display='none';},400);},duration);
     }
+    function triggerFireworks(time=1800) {showFireworks(time);}
+    // Celebration sequencing
+    const startBtn=document.getElementById('start-btn'),
+      frontPage=document.getElementById('front-page'),mainContent=document.getElementById('main-content'),
+      cake=document.getElementById('cake'),cutBtn=document.getElementById('cut-btn'),music=document.getElementById('music'),
+      cutSound=document.getElementById('cut-sound'),birthdayMessage=document.getElementById('birthday-message'),
+      typedTextSpan=document.getElementById('typed-text'),cursor=document.getElementById('cursor'),
+      birthdayCard=document.getElementById('birthday-card');
 
-    const startBtn=document.getElementById('start-btn'),frontPage=document.getElementById('front-page'),mainContent=document.getElementById('main-content'),
-      cake=document.getElementById('cake'),cutBtn=document.getElementById('cut-btn'),music=document.getElementById('music'),cutSound=document.getElementById('cut-sound'),
-      birthdayMessage=document.getElementById('birthday-message'),typedTextSpan=document.getElementById('typed-text'),cursor=document.getElementById('cursor'),
-      wishMessage=document.getElementById('wish-message');
     startBtn.addEventListener('click',()=>{
       frontPage.style.display='none';mainContent.style.display='flex';cake.style.display='block';cutBtn.style.display='inline-block';
-      if(music.paused)music.play().catch(()=>{}); showFireworks(1800);
+      if(music&&music.paused)music.play().catch(()=>{}); showFireworks(1800);
     });
     const birthdayText='Happy Birthday, Champ! 🎉'; let i=0;
     function typeLetter(){
@@ -299,10 +257,26 @@
     cutBtn.addEventListener('click',()=>{
       cake.style.display='none';cutBtn.style.display='none';
       birthdayMessage.style.display='block';
-      wishMessage.style.display='block';
-      cutSound.play().catch(()=>{});
+      cutSound&&cutSound.play&&cutSound.play().catch(()=>{});
       showFireworks(2300);
-      typeLetter();
+      setTimeout(function(){
+        birthdayCard.style.display='block';
+      }, 1400);
+      setTimeout(typeLetter, 250); // allow headline to type in after fireworks begin
+    });
+
+    // Flip card for mobile/keyboard
+    birthdayCard.addEventListener('click', function(e) {
+      if(!e.target.closest('a') && !e.target.closest('button')) {
+        birthdayCard.classList.toggle('flipped');
+        triggerFireworks(1000);
+      }
+    });
+    birthdayCard.addEventListener('keypress', function(e) {
+      if(e.key === 'Enter' || e.key === ' ') {
+        birthdayCard.classList.toggle('flipped');
+        triggerFireworks(1000);
+      }
     });
   </script>
 </body>
