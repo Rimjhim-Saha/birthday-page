@@ -95,31 +95,84 @@
     .card-back p { color: #23436c; font-size: 1.07rem; margin-bottom: 1.1rem; line-height: 1.47;}
     .signature { margin-top: 1rem; font-family: 'Pacifico', cursive; color: #1976d2; font-size: 1.06em;}
     .emoji-bar { font-size: 1.2em; }
-  
-   @media (max-width:600px) {
-  body { padding: 7vw 0 0 0; }
+/* Responsive for screens max-width 600px */
+@media (max-width: 600px) {
+  body {
+    padding: 7vw 0 0 0;
+  }
+
   .bday-title {
     font-size: clamp(1.4rem, 7vw, 2.1rem);
     margin-top: 2.5rem !important;
     margin-bottom: 1.25rem;
     padding: 0 4vw;
   }
-  .subtitle { font-size: 1em; max-width: 94vw; }
-  #front-page, #main-content { min-height: 98vh; padding: 0; }
-  .cake { max-width: 98vw; margin: 1.2rem auto !important; }
-  .cake svg { min-width: 0; width: 96vw; }
+
+  .subtitle {
+    font-size: 1em;
+    max-width: 94vw;
+  }
+
+  #front-page,
+  #main-content {
+    min-height: 98vh;
+    padding: 0;
+  }
+
+  .cake {
+    max-width: 98vw;
+    margin: 1.2rem auto !important;
+  }
+
+  .cake svg {
+    min-width: 0;
+    width: 96vw;
+  }
+
   #birthday-message {
     font-size: 1.17rem;
     max-width: 93vw;
-    margin-left: auto; margin-right: auto;
+    margin-left: auto;
+    margin-right: auto;
     padding: 0 2vw;
   }
-  .card, .card-inner, .card-front, .card-back { min-height: 210px !important; }
-  .card { width: 98vw; margin-bottom: 2.2rem; }
-  .card-front img { width: 68px; height: 68px; }
-  .card-front h1 { font-size: 1.1em; }
-  .card-back p, .signature { font-size: 0.91em; }
-  button, #start-btn, #cut-btn {
+
+  .card,
+  .card-inner,
+  .card-front,
+  .card-back {
+    min-height: 175px !important;
+    height: auto !important;
+    max-width: 98vw;
+    box-sizing: border-box;
+  }
+
+  .card {
+    width: 98vw;
+    margin-bottom: 2.2rem;
+  }
+
+  .card-inner {
+    height: auto !important;
+  }
+
+  .card-front img {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  .card-front h1 {
+    font-size: 1em !important;
+  }
+
+  .card-back p,
+  .signature {
+    font-size: 0.9em !important;
+  }
+
+  button,
+  #start-btn,
+  #cut-btn {
     width: 94vw !important;
     min-width: unset;
     padding: 1.05em 0.2em;
@@ -127,15 +180,43 @@
   }
 }
 
-@media (max-width:410px) {
-  .bday-title { font-size: 1.1rem; }
-  #birthday-message { font-size: 0.99rem; }
-  .card, .cake { width: 99vw; }
+/* Even smaller screens (max-width 410px) */
+@media (max-width: 410px) {
+  .bday-title {
+    font-size: 1.1rem;
+  }
+
+  #birthday-message {
+    font-size: 0.99rem;
+  }
+
+  .card,
+  .cake {
+    width: 99vw;
+  }
 }
 
+/* Fix transform and backface-visibility for Safari/Chrome mobile */
+.card,
+.card-inner,
+.card-front,
+.card-back {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
 
-    }
-  </style>
+.card {
+  -webkit-perspective: 1200px;
+  perspective: 1200px;
+  overflow: visible !important;
+}
+
+.card-inner {
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+}
+</style>
+
 </head>
 <body>
   <!-- Floating shapes background -->
