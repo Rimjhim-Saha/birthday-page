@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
-  <title>Birthday Celebration</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <title>Happy Birthday, Champ!</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Montserrat:wght@600&display=swap" rel="stylesheet"/>
   <style>
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      background: linear-gradient(120deg, #e1f5fe 0%, #fff8e1 100%);
-      min-height: 100vh;
+      margin: 0; padding: 0; min-height: 100vh;
       font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(120deg, #e1f5fe 0%, #fff8e1 100%);
       color: #23436c;
-      margin: 0; padding: 0;
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column;
-      overflow-x: hidden;
+      overflow-x: hidden; line-height: 1.4;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
       position: relative;
     }
+    /* Floating shapes */
     .float-shape { position: fixed; pointer-events: none; opacity: 0.23; z-index: 20; animation: floaty 8s infinite alternate linear; }
     .float1 { left: 10vw; top: 12vh; width: 60px; animation-delay: 0s;}
     .float2 { left: 75vw; top: 7vh; width: 42px; animation-delay: 2.2s;}
@@ -26,207 +26,105 @@
     @keyframes floaty { 0%{transform: translateY(0) scale(1);} 100%{transform: translateY(-40px) scale(1.08);} }
     #fireworks-canvas { position: fixed; left:0; top:0; width:100vw; height:100vh; z-index:1000; pointer-events:none; display:none; }
 
+    /* Countdown Overlay */
+    #countdown-overlay {
+      position: fixed; top:0; left:0; z-index:20000;
+      display: flex; align-items: center; justify-content: center;
+      width: 100vw; height: 100vh;
+      background: rgba(255,249,225,0.97);
+      flex-direction: column; font-family:'Montserrat',sans-serif;
+    }
+    #countdown-number { font-size: 5rem; color: #1976d2; font-family:'Pacifico',cursive; }
+    #countdown-surprise { font-size:2.4rem; color:#ffb300; display:none; margin-top:25px; font-family:'Pacifico',cursive; }
+
     #front-page, #main-content { width:100vw; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height:100vh; }
     #front-page { animation: fadein 1.5s cubic-bezier(.26,1.23,.45,1); }
     @keyframes fadein { 0%{opacity:0;transform:scale(0.94);} 100%{opacity:1;transform:scale(1);} }
-    .bday-title {
-      font-family:'Pacifico', cursive;
-      font-size: clamp(2.2rem, 5vw, 3.5rem);
-      color:#1976d2; letter-spacing:0.03em;
-      margin:3.5rem 0 1.5rem;
-      text-shadow:2px 8px 46px #1976d288;
-      filter: drop-shadow(0 2px 12px #fffde7cc);
-      animation:bounce-in 1.2s 0.2s backwards;
-      user-select: none;
-    }
-    @keyframes bounce-in {
-      0%{transform:translateY(-40px) scale(0.85);}
-      75%{transform:translateY(6px) scale(1.06);}
-      100%{transform:translateY(0) scale(1);}
-    }
-    .subtitle { font-size:clamp(1rem,3vw,1.35rem); color:#0077be; max-width:350px; margin-bottom:2rem; letter-spacing:0.06em; animation:fadein .8s 1.1s backwards; line-height:1.35; }
-    button {
-      font-family:'Pacifico',cursive; font-weight:700; border:none; border-radius:38px; cursor:pointer; transition: background 0.22s, color 0.22s, box-shadow 0.24s, transform 0.25s; outline-offset: 3px; outline-color: transparent; user-select: none;
-    }
-    #start-btn {
-      font-size:clamp(1.6rem,4vw,2em); padding:0.9em 2.5em; background:linear-gradient(135deg,#1976d2 0%,#ffd600 70%); color:white; animation:glow-btn 1.7s 1.6s infinite alternate; margin-bottom:20px; min-width:190px; box-shadow:0 8px 36px 8px #ffd60067, 0 1px 14px #1976d2ad;
-    }
+    .bday-title { font-family:'Pacifico', cursive; font-size: clamp(2.2rem, 5vw, 3.5rem); color:#1976d2; letter-spacing:0.03em; margin:3.5rem 0 1.5rem; text-shadow:2px 8px 46px #1976d288; filter: drop-shadow(0 2px 12px #fffde7cc); animation:bounce-in 1.2s 0.2s backwards; user-select: none;}
+    @keyframes bounce-in { 0%{transform:translateY(-40px) scale(0.85);} 75%{transform:translateY(6px) scale(1.06);} 100%{transform:translateY(0) scale(1);}}
+    .subtitle { font-size:clamp(1rem,3vw,1.35rem); color:#0077be; max-width:350px; margin-bottom:2rem; letter-spacing:0.06em; animation:fadein .8s 1.1s backwards; line-height:1.35;}
+
+    #start-btn { font-family:'Pacifico',cursive; font-weight:700; font-size:clamp(1.6rem,4vw,2em); padding:0.9em 2.5em; border:none; border-radius:38px; background:linear-gradient(135deg,#1976d2 0%,#ffd600 70%); color:white; cursor: pointer; box-shadow:0 8px 36px 8px #ffd60067, 0 1px 14px #1976d2ad; animation:glow-btn 1.7s 1.6s infinite alternate; margin-bottom:20px; min-width:190px; transition: background 0.22s, color 0.22s, box-shadow 0.24s, transform 0.25s; outline-offset: 3px; outline-color: transparent; user-select: none; }
     #start-btn:hover,#start-btn:focus { background:linear-gradient(120deg,#ffd600 0%,#1976d2 90%); color:#23436c; transform: scale(1.07); box-shadow:0 12px 64px 8px #ffd600dd, 0 1px 26px #1976d2c9;}
     @keyframes glow-btn { from{box-shadow:0 8px 32px 0px #ffd6003c;} to{box-shadow:0 18px 50px 4px #ffd600c2;} }
 
     #main-content { display: none; padding: 0 10px; }
-    .cake { max-width:320px; width:90vw; margin:1.5rem auto 1.5rem; display:none; animation: cakedelicious 1.7s infinite alternate cubic-bezier(.4,1.6,.3,1.3); filter: drop-shadow(0 16px 19px #ffd60033); }
+    .cake { max-width:320px; width:90vw; margin:1.5rem auto 1.5rem; display:none; animation: cakedelicious 1.7s infinite alternate cubic-bezier(.4,1.6,.3,1.3); filter: drop-shadow(0 16px 19px #ffd60033);}
     .cake svg{ width:100%; height:auto; display:block; }
-    @keyframes cakedelicious { 0%{transform: translateY(-8px) scale(1);} 60%{transform: translateY(6px) scale(1.03,0.98);} 80%{transform: translateY(-4px) scale(1.06,0.96);} 100%{transform: translateY(7px) scale(1.01,1.01);} }
+    @keyframes cakedelicious {0%{transform:translateY(-8px) scale(1);}60%{transform:translateY(6px) scale(1.03,0.98);}80%{transform:translateY(-4px) scale(1.06,0.96);}100%{transform:translateY(7px) scale(1.01,1.01);}}
     .cake-sparkle{ animation: sparklecake 1.4s infinite alternate; filter: drop-shadow(0 0 18px #fff9c4);}
     @keyframes sparklecake {0%,100%{opacity:0.77;}30%{opacity:1;filter:drop-shadow(0 0 42px #fff9c4);} }
     .candle { animation: flicker 0.65s infinite alternate;}
     @keyframes flicker{0%{filter:brightness(.94) drop-shadow(0 0 12px #fff176f6); transform:scaleY(1.1);}80%{filter:brightness(1.28) drop-shadow(0 0 22px #fff176); transform:scaleY(1);} }
-    #cut-btn {
-      display:none; font-size:clamp(1rem,2.5vw,1.22rem); padding:0.75em 2.2em; margin-top:1.5rem; border-radius:18px; background:linear-gradient(135deg,#1976d2,#ffd600 87%); color:white; box-shadow:0 8px 16px #ffd60044; font-family:'Montserrat',sans-serif; font-weight:700; animation:fadein .6s backwards; min-width:160px;
-    }
-    #cut-btn:hover,#cut-btn:focus { background:linear-gradient(90deg,#ffd600 40%,#1976d2 80%);color:#23436c;transform:scale(1.06);}
-    #birthday-message {
-      display:none; font-size:clamp(1.8rem,5vw,2.5rem); margin:2.5rem auto 1rem; width:0; white-space:nowrap; overflow:hidden; border-right:3px solid #1976d2; font-family:'Pacifico',cursive; color:#1976d2; animation:typing 2.1s steps(26, end) forwards; max-width:90vw; max-inline-size:90vw;
-    }
+
+    #cut-btn { display:none; font-size:clamp(1rem,2.5vw,1.22rem); padding:0.75em 2.2em; margin-top:1.5rem; border-radius:18px; background:linear-gradient(135deg,#1976d2,#ffd600 87%); color:white; box-shadow:0 8px 16px #ffd60044; font-family:'Montserrat',sans-serif; font-weight:700; animation:fadein .6s backwards; min-width:160px; transition: background 0.22s, transform 0.19s;}
+    #cut-btn:hover,#cut-btn:focus{background:linear-gradient(90deg,#ffd600 40%,#1976d2 80%);color:#23436c;transform:scale(1.06);}
+    #cut-btn:disabled { opacity: 0.57; pointer-events: none; background: linear-gradient(135deg, #bbb, #ccc);}
+    #cut-btn.celebrate { animation: popGlow 1.2s 1;}
+    @keyframes popGlow { 20%{transform:scale(1.06);} 40%{box-shadow:0 0 20px 7px #ffd600b8;} 60%{transform:scale(1);} }
+
+    #birthday-message { display:none; font-size:clamp(1.8rem,5vw,2.5rem); margin:2.5rem auto 1rem; width:0; white-space:nowrap; overflow:hidden; border-right:3px solid #1976d2; font-family:'Pacifico',cursive; color:#1976d2; animation:typing 2.1s steps(26, end) forwards; max-width:90vw; max-inline-size:90vw; user-select: none; }
     @keyframes typing {from{width:0}to{width:23ch}}
     .cursor {border-right:3px solid #1976d2; display:inline-block; animation: blink-cursor 0.8s 1;}
     @keyframes blink-cursor {0%,100%{border-color:transparent;}50%{border-color:#1976d2;} }
 
-    /* Flipping card styles (starts hidden, appears after cake is cut) */
-    .card { width: 340px; max-width: 96vw; min-height: 380px; perspective: 1200px; margin: 2.6rem auto 3rem auto; border-radius: 22px; background: none; outline: 0; box-shadow: 0 4px 26px 0 #90caf922; cursor: pointer; user-select: none; z-index:3; display:none;}
-    .card-inner { width: 100%; min-height: 380px; transition: transform 0.75s cubic-bezier(.41,1.13,.43,1), box-shadow 0.4s; transform-style: preserve-3d; position: relative; border-radius: 22px; height: 100%; box-shadow: 0 4px 28px #ffd60044; }
+    /* Flipping card styles */
+    .card, .card-inner, .card-front, .card-back { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+    .card { width: 340px; max-width:96vw; min-height:380px; perspective:1200px; margin:2.5rem auto 3rem auto; border-radius:22px; background:none; outline:0; box-shadow:0 4px 26px 0 #90caf922; cursor:pointer; user-select:none; z-index:3; display:none; -webkit-perspective:1200px; perspective:1200px; overflow: visible !important;}
+    .card-inner { width:100%; min-height:380px; transition:transform 0.75s cubic-bezier(.41,1.13,.43,1), box-shadow 0.4s; transform-style:preserve-3d; position:relative; border-radius:22px; height:100%; box-shadow:0 4px 28px #ffd60044; -webkit-transform-style: preserve-3d; transform-style: preserve-3d;}
     .card:hover .card-inner, .card.flipped .card-inner { transform: rotateY(180deg); box-shadow: 0 12px 48px #1976d233;}
-    .card-front, .card-back {
-      position: absolute; width: 100%; min-height: 380px; backface-visibility: hidden; border-radius: 22px; background: #fff; box-shadow: 0 4px 18px rgba(33,150,243,0.13); padding: 2.1rem 1.1rem 1.2rem 1.1rem; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    .card-front, .card-back { position:absolute; width:100%; min-height:380px; backface-visibility:hidden; border-radius:22px; background:#fff; box-shadow:0 4px 18px rgba(33,150,243,0.13); padding:2.1rem 1.1rem 1.2rem 1.1rem; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+    .card-front { z-index:2; background:linear-gradient(110deg,#e3f2fd 90%,#fffde7 100%);}
+    .card-front h1 { font-family:'Pacifico',cursive; color:#1976d2; font-size:clamp(2.1rem,4vw,2.9rem); margin:0.2em 0 0.7em 0; letter-spacing:0.02em; text-shadow:1px 4px 24px #1976d233; user-select:none;}
+    .card-front img { width:120px; height:120px; object-fit:cover; border-radius:80px; box-shadow:0 4px 24px #ffd60088; border:4px solid #e1f5fe; margin:0 auto 1.1em auto; background:#eee; display:block; }
+    .card-front .subtitle { font-size:1.14em; color:#0077be; margin:0.6em 0 0.5em 0; font-family:'Montserrat',sans-serif;}
+    .card-back { transform:rotateY(180deg); z-index:3; background:linear-gradient(120deg,#fffde7 71%, #e1f5fe 100%); padding-bottom:1.4rem; align-items:center; justify-content:center;}
+    .card-back p { color:#23436c; font-size:1.07rem; margin-bottom:1.1rem; line-height:1.47;}
+    .signature { margin-top:1rem; font-family:'Pacifico',cursive; color:#1976d2; font-size:1.06em; }
+    .emoji-bar { font-size:1.2em; }
+
+    /* Mobile Responsiveness */
+    @media (max-width:600px) {
+      body { padding:7vw 0 0 0; }
+      .bday-title { font-size:clamp(1.4rem,7vw,2.1rem); margin-top:2.5rem!important; margin-bottom:1.25rem; padding:0 4vw; }
+      .subtitle { font-size:1em; max-width:94vw; }
+      #front-page, #main-content { min-height:98vh; padding:0; }
+      .cake { max-width:98vw; margin:1.2rem auto !important; }
+      .cake svg { min-width:0; width:96vw; }
+      #birthday-message { font-size:1.17rem; max-width:93vw; margin-left:auto; margin-right:auto; padding:0 2vw; }
+      .card, .card-inner, .card-front, .card-back {
+        min-height:175px !important;
+        height:auto !important;
+        max-width:98vw; box-sizing:border-box;
+      }
+      .card { width:98vw; margin-bottom:2.2rem; }
+      .card-inner { height:auto !important; }
+      .card-front img { width:60px !important; height:60px !important;}
+      .card-front h1 { font-size:1.0em !important; }
+      .card-back p, .signature { font-size:0.9em !important;}
+      button, #start-btn, #cut-btn { width:94vw !important; min-width:unset; padding:1.05em 0.2em; font-size:1.05em !important;}
     }
-    .card-front { z-index: 2; background: linear-gradient(110deg, #e3f2fd 90%, #fffde7 100%);}
-    .card-front h1 { font-family: 'Pacifico', cursive; color: #1976d2; font-size: clamp(2.1rem,4vw,2.9rem); margin: 0.2em 0 0.7em 0; letter-spacing: 0.02em; text-shadow: 1px 4px 24px #1976d233; user-select: none;}
-    .card-front img {
-      width: 120px; height: 120px; object-fit: cover; border-radius: 80px;
-      box-shadow: 0 4px 24px #ffd60088; border: 4px solid #e1f5fe;
-      margin: 0 auto 1.1em auto; background: #eee; display: block;
+    @media (max-width:410px) {
+      .bday-title { font-size:1.1rem; }
+      #birthday-message { font-size:.99rem; }
+      .card, .cake { width:99vw; }
     }
-    .card-front .subtitle { font-size: 1.14em; color: #0077be; margin: 0.6em 0 0.5em 0; font-family:'Montserrat',sans-serif; }
-    .card-back {
-      transform: rotateY(180deg); z-index: 3; background: linear-gradient(120deg,#fffde7 71%, #e1f5fe 100%);
-      padding-bottom: 1.4rem; align-items: center; justify-content: center;
-    }
-    .card-back p { color: #23436c; font-size: 1.07rem; margin-bottom: 1.1rem; line-height: 1.47;}
-    .signature { margin-top: 1rem; font-family: 'Pacifico', cursive; color: #1976d2; font-size: 1.06em;}
-    .emoji-bar { font-size: 1.2em; }
-/* Responsive for screens max-width 600px */
-@media (max-width: 600px) {
-  body {
-    padding: 7vw 0 0 0;
-  }
-
-  .bday-title {
-    font-size: clamp(1.4rem, 7vw, 2.1rem);
-    margin-top: 2.5rem !important;
-    margin-bottom: 1.25rem;
-    padding: 0 4vw;
-  }
-
-  .subtitle {
-    font-size: 1em;
-    max-width: 94vw;
-  }
-
-  #front-page,
-  #main-content {
-    min-height: 98vh;
-    padding: 0;
-  }
-
-  .cake {
-    max-width: 98vw;
-    margin: 1.2rem auto !important;
-  }
-
-  .cake svg {
-    min-width: 0;
-    width: 96vw;
-  }
-
-  #birthday-message {
-    font-size: 1.17rem;
-    max-width: 93vw;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 2vw;
-  }
-
-  .card,
-  .card-inner,
-  .card-front,
-  .card-back {
-    min-height: 175px !important;
-    height: auto !important;
-    max-width: 98vw;
-    box-sizing: border-box;
-  }
-
-  .card {
-    width: 98vw;
-    margin-bottom: 2.2rem;
-  }
-
-  .card-inner {
-    height: auto !important;
-  }
-
-  .card-front img {
-    width: 60px !important;
-    height: 60px !important;
-  }
-
-  .card-front h1 {
-    font-size: 1em !important;
-  }
-
-  .card-back p,
-  .signature {
-    font-size: 0.9em !important;
-  }
-
-  button,
-  #start-btn,
-  #cut-btn {
-    width: 94vw !important;
-    min-width: unset;
-    padding: 1.05em 0.2em;
-    font-size: 1.05em !important;
-  }
-}
-
-/* Even smaller screens (max-width 410px) */
-@media (max-width: 410px) {
-  .bday-title {
-    font-size: 1.1rem;
-  }
-
-  #birthday-message {
-    font-size: 0.99rem;
-  }
-
-  .card,
-  .cake {
-    width: 99vw;
-  }
-}
-
-/* Fix transform and backface-visibility for Safari/Chrome mobile */
-.card,
-.card-inner,
-.card-front,
-.card-back {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-}
-
-.card {
-  -webkit-perspective: 1200px;
-  perspective: 1200px;
-  overflow: visible !important;
-}
-
-.card-inner {
-  -webkit-transform-style: preserve-3d;
-  transform-style: preserve-3d;
-}
-</style>
-
+  </style>
 </head>
 <body>
-  <!-- Floating shapes background -->
-  <svg class="float-shape float1" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="30" fill="#ffd600"/></svg>
-  <svg class="float-shape float2" viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#1976d2"/></svg>
-  <svg class="float-shape float3" viewBox="0 0 50 38" aria-hidden="true"><ellipse cx="25" cy="25" rx="24" ry="12" fill="#fff9c4"/></svg>
-  <svg class="float-shape float4" viewBox="0 0 40 40" aria-hidden="true"><polygon points="0,20 20,0 40,20 20,40" fill="#42a5f5"/></svg>
-  <svg class="float-shape float5" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="12" fill="#0077be"/></svg>
-
+  <!-- Floating Shapes -->
+  <svg class="float-shape float1" viewBox="0 0 60 60"><circle cx="30" cy="30" r="30" fill="#ffd600"/></svg>
+  <svg class="float-shape float2" viewBox="0 0 40 40"><rect width="40" height="40" rx="12" fill="#1976d2"/></svg>
+  <svg class="float-shape float3" viewBox="0 0 50 38"><ellipse cx="25" cy="25" rx="24" ry="12" fill="#fff9c4"/></svg>
+  <svg class="float-shape float4" viewBox="0 0 40 40"><polygon points="0,20 20,0 40,20 20,40" fill="#42a5f5"/></svg>
+  <svg class="float-shape float5" viewBox="0 0 48 48"><circle cx="24" cy="24" r="12" fill="#0077be"/></svg>
   <canvas id="fireworks-canvas"></canvas>
+
+  <!-- Countdown Overlay -->
+  <div id="countdown-overlay">
+    <div id="countdown-number"></div>
+    <div id="countdown-surprise">Surprise!</div>
+  </div>
 
   <!-- Landing -->
   <section id="front-page">
@@ -235,7 +133,7 @@
     <button id="start-btn" type="button">Start the Celebration 🚀</button>
   </section>
 
-  <!-- Main celebration content -->
+  <!-- Cake with interactive candles -->
   <section id="main-content">
     <div class="cake" id="cake">
       <svg viewBox="0 0 220 170">
@@ -250,28 +148,36 @@
         <ellipse class="cake-sparkle" cx="140" cy="74" rx="2" ry="6" fill="#fff" />
         <ellipse class="cake-sparkle" cx="170" cy="85" rx="3" ry="1.5" fill="#ffd600" />
         <ellipse class="cake-sparkle" cx="110" cy="69" rx="4" ry="2.8" fill="#43a047" />
-        <g><rect x="74" y="53" width="8" height="21" rx="3" fill="#ffd600"/>
+        <!-- Candle 1 -->
+        <g id="candle1">
+          <rect x="74" y="53" width="8" height="21" rx="3" fill="#ffd600"/>
           <ellipse cx="78" cy="53" rx="4" ry="4" fill="#fffde7"/>
-          <ellipse class="candle" cx="78" cy="48" rx="3" ry="6" fill="#fff176" />
-          <ellipse class="candle" cx="78" cy="44.5" rx="1.6" ry="2.7" fill="#fffde7" /></g>
-        <g><rect x="106" y="45" width="8" height="28" rx="3" fill="#ffd600"/>
+          <ellipse class="candle-flame candle" id="flame1a" cx="78" cy="48" rx="3" ry="6" fill="#fff176" />
+          <ellipse class="candle-flame candle" id="flame1b" cx="78" cy="44.5" rx="1.6" ry="2.7" fill="#fffde7" />
+        </g>
+        <!-- Candle 2 -->
+        <g id="candle2">
+          <rect x="106" y="45" width="8" height="28" rx="3" fill="#ffd600"/>
           <ellipse cx="110" cy="45" rx="4" ry="4" fill="#fffde7"/>
-          <ellipse class="candle" cx="110" cy="38" rx="3.2" ry="7" fill="#fff176" />
-          <ellipse class="candle" cx="110" cy="34.5" rx="1.8" ry="3.1" fill="#fffde7" /></g>
-        <g><rect x="138" y="51" width="8" height="22" rx="3" fill="#ffd600"/>
+          <ellipse class="candle-flame candle" id="flame2a" cx="110" cy="38" rx="3.2" ry="7" fill="#fff176" />
+          <ellipse class="candle-flame candle" id="flame2b" cx="110" cy="34.5" rx="1.8" ry="3.1" fill="#fffde7" />
+        </g>
+        <!-- Candle 3 -->
+        <g id="candle3">
+          <rect x="138" y="51" width="8" height="22" rx="3" fill="#ffd600"/>
           <ellipse cx="142" cy="51" rx="4" ry="4" fill="#fffde7"/>
-          <ellipse class="candle" cx="142" cy="46" rx="3" ry="6" fill="#fff176" />
-          <ellipse class="candle" cx="142" cy="43.2" rx="1.5" ry="2.5" fill="#fffde7" /></g>
+          <ellipse class="candle-flame candle" id="flame3a" cx="142" cy="46" rx="3" ry="6" fill="#fff176" />
+          <ellipse class="candle-flame candle" id="flame3b" cx="142" cy="43.2" rx="1.5" ry="2.5" fill="#fffde7" />
+        </g>
       </svg>
     </div>
     <button id="cut-btn" type="button">Cut the Cake 🎂</button>
     <h1 id="birthday-message"><span id="typed-text"></span><span class="cursor" id="cursor"></span></h1>
-    <!-- Flipping Birthday Card -->
     <div class="card" id="birthday-card" tabindex="0" aria-label="Flipping Birthday Card">
       <div class="card-inner">
         <div class="card-front">
-          <!-- Uncomment next line for photo -->
-           <img src="b.jpeg" alt="Birthday photo" /> 
+          <!-- Uncomment line below and use your own photo if desired -->
+          <!-- <img src="b.jpeg" alt="Birthday photo" /> -->
           <h1>Happy Birthday! 🎉</h1>
           <div class="subtitle">Wishing you a magical day!</div>
         </div>
@@ -292,9 +198,8 @@
     <audio id="music" src="cut.mp3" autoplay loop preload="auto"></audio>
     <audio id="cut-sound" src="cut1.mp3" preload="auto"></audio>
   </section>
-
   <script>
-    // FLOATING SHAPES, FIREWORKS
+    // Fireworks effect (unchanged, as previously discussed)
     const fireworksCanvas = document.getElementById('fireworks-canvas');
     const fireworksCtx = fireworksCanvas.getContext('2d');
     let fireworks = [], particles = [], running = false;
@@ -349,13 +254,112 @@
       setTimeout(()=>{running=false;setTimeout(()=>{fireworksCanvas.style.display='none';},400);},duration);
     }
     function triggerFireworks(time=1800) {showFireworks(time);}
-    // Celebration sequencing
+
+    // FLIPPING CARD JS
+    const birthdayCard = document.getElementById('birthday-card');
+    birthdayCard.addEventListener('click', function(e) {
+      if(!e.target.closest('a') && !e.target.closest('button')) {
+        birthdayCard.classList.toggle('flipped');
+        triggerFireworks(1000);
+      }
+    });
+    birthdayCard.addEventListener('keypress', function(e) {
+      if(e.key === 'Enter' || e.key === ' ') {
+        birthdayCard.classList.toggle('flipped');
+        triggerFireworks(1000);
+      }
+    });
+
+    // Countdown logic
+    const countdownOverlay = document.getElementById('countdown-overlay');
+    const countdownNumber = document.getElementById('countdown-number');
+    const countdownSurprise = document.getElementById('countdown-surprise');
+    function doCountdown(cb) {
+      let count = 3;
+      countdownNumber.textContent = count;
+      countdownOverlay.style.display = 'flex';
+      countdownSurprise.style.display = 'none';
+      countdownNumber.style.display = 'block';
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          countdownNumber.textContent = count;
+        } else if (count === 0) {
+          countdownNumber.style.display = 'none';
+          countdownSurprise.style.display = 'block';
+        } else {
+          clearInterval(interval);
+          countdownOverlay.style.opacity = '1';
+          setTimeout(() => {
+            countdownOverlay.style.transition = 'opacity 0.8s';
+            countdownOverlay.style.opacity = 0;
+            setTimeout(() => {
+              countdownOverlay.style.display = 'none';
+              countdownNumber.style.display = 'block';
+              countdownOverlay.style.opacity = '1';
+              countdownSurprise.style.display = 'none';
+              if (cb) cb();
+            }, 800);
+          }, 1050);
+        }
+      }, 1000);
+    }
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('front-page').style.display='none';
+      doCountdown(() => {
+        document.getElementById('front-page').style.display='';
+      });
+    });
+
+    // CANDLE BLOW OUT
+    const candles = [
+      { 
+        flame: [document.getElementById('flame1a'), document.getElementById('flame1b')],
+        blown: false 
+      },
+      { 
+        flame: [document.getElementById('flame2a'), document.getElementById('flame2b')],
+        blown: false 
+      },
+      { 
+        flame: [document.getElementById('flame3a'), document.getElementById('flame3b')],
+        blown: false 
+      }
+    ];
+    let blownCount = 0;
+    function blowOutFlame(flameEls) {
+      flameEls.forEach(flame => {
+        if(flame) {
+          flame.style.transition = 'opacity 0.5s cubic-bezier(.4,1.1,.66,1.04)';
+          flame.style.opacity = 0;
+          setTimeout(()=>{flame.style.display='none';},520);
+        }
+      });
+    }
+    candles.forEach((candle, idx) => {
+      candle.flame.forEach(f => {
+        if(f) f.style.cursor = 'pointer';
+        if(f) f.addEventListener('click', () => {
+          if (!candle.blown) {
+            candle.blown = true;
+            blowOutFlame(candle.flame);
+            blownCount++;
+            if (blownCount === candles.length) {
+              document.getElementById('cut-btn').disabled = false;
+              document.getElementById('cut-btn').classList.add('celebrate');
+            }
+          }
+        });
+      });
+    });
+    document.getElementById('cut-btn').disabled = true;
+
+    // CELEBRATION SEQUENCE
     const startBtn=document.getElementById('start-btn'),
       frontPage=document.getElementById('front-page'),mainContent=document.getElementById('main-content'),
       cake=document.getElementById('cake'),cutBtn=document.getElementById('cut-btn'),music=document.getElementById('music'),
       cutSound=document.getElementById('cut-sound'),birthdayMessage=document.getElementById('birthday-message'),
-      typedTextSpan=document.getElementById('typed-text'),cursor=document.getElementById('cursor'),
-      birthdayCard=document.getElementById('birthday-card');
+      typedTextSpan=document.getElementById('typed-text'),cursor=document.getElementById('cursor');
 
     startBtn.addEventListener('click',()=>{
       frontPage.style.display='none';mainContent.style.display='flex';cake.style.display='block';cutBtn.style.display='inline-block';
@@ -375,20 +379,6 @@
         birthdayCard.style.display='block';
       }, 1400);
       setTimeout(typeLetter, 250); // allow headline to type in after fireworks begin
-    });
-
-    // Flip card for mobile/keyboard
-    birthdayCard.addEventListener('click', function(e) {
-      if(!e.target.closest('a') && !e.target.closest('button')) {
-        birthdayCard.classList.toggle('flipped');
-        triggerFireworks(1000);
-      }
-    });
-    birthdayCard.addEventListener('keypress', function(e) {
-      if(e.key === 'Enter' || e.key === ' ') {
-        birthdayCard.classList.toggle('flipped');
-        triggerFireworks(1000);
-      }
     });
   </script>
 </body>
